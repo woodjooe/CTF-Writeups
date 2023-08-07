@@ -1,0 +1,16 @@
+
+fn = lambda x: (x.T * A * x + B.T * x + C)[0][0]
+
+we need the C matrix partx herem therefore the random elements of B and A must be discarded, (x.T * A * x + B.T * x)
+
+attempting to visualize the matrices shows vulnerabilities.
+
+we can get rid of these random instances of B and A using the following:
+In the output there is a list with 7 elements, let us call them n1, n2, ..., n7
+
+and we have the modulus P
+
+to get the flag, do: 
+long_to_bytes((n7 - n6 + n2 - n3 + n1 + n4 - n5) % p)
+
+(n7 - n6 + n2 - n3 + n1 + n4 - n5) was found by trying combination that got rid of random elements and removing any new ones introduced again.

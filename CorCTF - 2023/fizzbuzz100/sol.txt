@@ -1,0 +1,20 @@
+for this you must factor the ciphertext given as part of the ouput:
+
+for example: ct is factored into 8 prime numbers pN : p1, p2,...,p8
+either sign every single pN and multiply their results for the Plaintext but you run into the problem of one of their results being divisible by 3 or 5.
+
+``` python
+    if pt % 3 == 0:
+        out += "Fizz"
+    if pt % 5 == 0:
+        out += "Buzz"
+    if not out:
+        out = pt
+    print(out)
+```
+
+or choose combinations of those factors for example, 
+p1*p2*p3*p4 and p5*p6*p7*p8
+or p1*p2 and p3*p4*p5*p6*p7*p8
+etc...
+one of these combination will surely get you the flag

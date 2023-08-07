@@ -1,0 +1,7 @@
+we notice a weak prime generation function making is very easy to factor p-1.
+
+Get the h^x from the server and solve the discrete logrithm problem using the sol.py file
+the result is x.
+
+then for the plaintext, knowing that c1 is g^y, do: c1^x to get s
+now do modular inverse of s in modulus P and you get the plaintext.

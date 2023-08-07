@@ -1,0 +1,1 @@
+Weak prime generation function makes it very easy to factor p-1 and then solve the discrete logarithm problem, this gets you the number a which you can then turn into bytes to get the flag

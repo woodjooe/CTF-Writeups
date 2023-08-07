@@ -1,0 +1,31 @@
+Very simple equation solve
+
+f1 = (a*x*y + b*x - c*y + a*b) % p
+f2 = (a*x*y - a*b*x + c*y - a*b*c) % p
+f3 = (a*x*y + a*b*x - b*y + a*c) % p
+
+turn them into:
+
+f1 = (a*x*y + b*x - c*y ) % p
+f2 = (a*x*y - a*b*x + c*y ) % p
+f3 = (a*x*y + a*b*x - b*y ) % p
+
+m1 = f2 - f1 = ((a*b-b)*x + 2*c*y) % p
+m2 = f3 - f2 = (2*a*b*x - (c+b)*y) % p
+
+v1 = a*b-b
+v2 = 2*c
+v3 = 2*a*b
+v4 = - (c+b)
+
+now you have
+
+m1 = (v1*x + v2*y) % p
+m2 = (v3*x + v4*y) % p
+
+m2*v1 - m1*v3 = (v4*v1-v2*v3)*y % p
+
+calculate inverse of (v4*v1-v2*v3) to modulus p to get y, then getting x is easy.
+
+now calculate inverse of x to modulus p and multiply it by y
+and you get the flag.

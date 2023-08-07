@@ -1,0 +1,135 @@
+this is solved using a bunch of operation, we find parts of the 16 bytes key byte by byte by trying to find the key that gives us the most number of the word 'THE' which is the most common english word.
+first capture 4 bytes of the KEY, 12 will be random gibberish and 4 will be bruteforced, select the 4 key bytes that results in the most number of occurences of the word 'THE'.
+once thats done, attempt to do the same using the 4 known bytes and 4 next random bytes that will be bruteforced next.
+After 8 bytes we start seeing coherent texts which can be used to easily figure out some bytes of the key but completing missing letters from the words.
+and the next parts are easy.
+
+Run the program and you'll see how easy it is to guess the last missing byte of the key when you now have 15 known bytes of the key and coherent words decrypted.
+
+``` python
+
+import random
+
+
+alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+#output of the challenge
+iv = 'RLNZXWHLULXRLTNP'
+ct = 'ZQTJIHLVWMPBYIFRQBUBUESOOVCJHXXLXDKPBQCUXWGJDHJPQTHXFQIQMBXNVOIPJBRHJQOMBMNJSYCRAHQBPBSMMJWJKTPRAUYZVZTHKTPUAPGAIJPMZZZDZYGDTKFLWAQTSKASXNDRRQQDJVBREUXFULWGNSIINOYULFXLDNMGWWVSCEIORQESVPFNMWZKPIYMYVFHTSRDJWQBTWHCURSBPUKKPWIGXERMPXCHSZKYMFLPIAHKTXOROOJHUCSGINWYEILFIZUSNRVRBHVCJPVPSEGUSYOAMXKSUKSWSOJTYYCMEHEUNPJAYXXJWESEWNSCXBPCCIZNGOVFRTGKYHVSZYFNRDOVPNWEDDJYITHJUBVMWDNNNZCLIPOSFLNDDWYXMYVCEOHZSNDUXPIBKUJIJEYOETXWOJNFQAHQOVTRRXDCGHSYNDYMYWVGKCCYOBDTZZEQQEFGSPJJIAAWVDXFGPJKQJCZMTPMFZDVRMEGMPUEMOUVGJXXBRFCCCRVTUXYTTORMSQBLZUEHLYRNJAAIVCRFSHLLPOANFKGRWBYVSOBLCTDAUDVMMHYSYCDZTBXTDARWRTAFTCVSDRVEENLHOHWBOPYLMSDVOZRLENWEKGAWWCNLOKMKFWWAZJJPFDSVUJFCODFYIMZNZTMAFJHNLNMRMLQRTJJXJCLMQZMOFOGFPXBUTOBXUCWMORVUIIXELTVIYBLPEKKOXYUBNQONZLPMGWMGRZXNNJBUWBEFNVXUIAEGYKQSLYSDTGWODRMDBHKCJVWBNJFTNHEWGOZFEZMTRBLHCMHIFLDLORMVMOOHGXJQIIYHZFMROGUUOMXBTFMKERCTYXFIHVNFWWIUFTGLCKPJRFDRWDXIKLJJLNTWNQIOFWSIUQXMFFVIIUCDEDFEJNLKLQBALRKEYWSHESUJJXSHYWNRNPXCFUEFRJKSIGXHFTKNJXSYVITDOGYIKGJIOOHUFILWYRBTCQPRPNOKFKROTFZNOCZXZEYUNWJZDPJDGIZLWBBDGZJNRQRPFFGOTGFBACCRKLAPFLOGVYFXVIIJMBBMXWJGLPOQQHMNBCINRGZRBVSMLKOAFGYRUDOPCCULRBE'
+
+# my custum output from cbc.py 
+#iv = 'JQUZCRHSDBYPPRTA'
+#ct = 'SNZZPCHUQGLERTADADCLZJYYHQONUPSIHINLIUVGRFVLHCSQ'
+
+
+def reverse_add_key(key, block):
+    ct_idxs = [(pt_a - k_a) % len(alphabet) for k_a, pt_a in zip([alphabet.index(k) for k in key], [alphabet.index(pt) for pt in block])]
+    return "".join([alphabet[idx] for idx in ct_idxs])
+
+L = []
+L0 = []
+L1 = []
+
+klen = 16
+l = len(ct)
+
+for i in range(0, l, klen):
+  block = ct[i:i + klen]
+  L.append(block)
+  
+L = L[::-1]
+
+#print(L)
+
+for i in range(len(L)):
+  if(i==(len(L) - 1)):
+    block = reverse_add_key(iv, L[i])
+  else:
+    block = reverse_add_key(L[i + 1], L[i])
+  L0.append(block)
+
+#print(L0)
+
+
+'''
+key = 'X'*16
+key = reverse_add_key(key, L0[0][16 - len(key):])
+#print(key)
+L1 = []
+for i in L0:
+  block = i[:16 - len(key)] + reverse_add_key(key, i[16 - len(key):])
+
+  L1.append(block)
+  
+L1 = L1[::-1]
+
+print(L1)
+print('focus on the last part of every element in the list, it contains parts of the original message')
+print('the more the padding increases, the more we can recover')
+'''
+
+'''
+l = 6
+c0=0
+for i0 in range(26):
+    print('Stepping slow')
+    for i1 in range(26):
+        for i2 in range(26):
+            for i3 in range(26):
+                key = 'X'*7 + alphabet[i0] + alphabet[i1] + alphabet[i2] + alphabet[i3] + 'CSXZWFCZY'
+                #key = reverse_add_key(key, L0[0][16 - len(key):])
+                #print(key)
+                L1 = []
+                for i in L0:
+                  block = i[:16 - len(key)] + reverse_add_key(key, i[16 - len(key):])
+
+                  L1.append(block)
+                  
+                L1 = L1[::-1]
+                c = 0
+                for j in L1:
+                    if ('THE' in j[7:]):
+                        c += 1
+                if (c > 7):
+                    if (c > c):
+                        c0 = c
+                        m=key
+                    print('NIICE')
+                    print(key)
+                    print(L1)
+                #print(L1)
+                #print('focus on the last part of every element in the list, it contains parts of the original message')
+                #print('the more the padding increases, the more we can recover')
+
+
+'''
+c0=0
+l = 0
+for i0 in range(26):
+    key = 'X'*l + alphabet[i0] + 'CXQTSTCSXZWFCZY'
+    #key = reverse_add_key(key, L0[0][16 - len(key):])
+    #print(key)
+    L1 = []
+    for i in L0:
+      block = i[:16 - len(key)] + reverse_add_key(key, i[16 - len(key):])
+
+      L1.append(block[l:])
+      
+    L1 = L1[::-1]
+    c = 0
+    for j in L1:
+        if ('THE' in j[:]):
+            c += 1
+    if (c > 16):
+        if (c > c0):
+            c0 = c
+            m=key
+        print(c)
+        print(key)
+        print(L1)
+    #print(L1)
+    #print('focus on the last part of every element in the list, it contains parts of the original message')
+    #print('the more the padding increases, the more we can recover')
+print(c0)
+
+```
