@@ -1,5 +1,13 @@
 we notice a weak prime generation function making is very easy to factor p-1.
 
+def gen_prime():
+    while True:
+        p = 2
+        for _ in range((2<<2)+1):
+            p *= getrandbits(58)
+        if is_prime(p+1):
+            return p+1
+
 Get the h^x from the server and solve the discrete logrithm problem using the sol.py file
 the result is x.
 
