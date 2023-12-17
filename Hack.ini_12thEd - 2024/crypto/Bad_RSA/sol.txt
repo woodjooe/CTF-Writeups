@@ -1,0 +1,15 @@
+We notice that e = 32 = 2**5
+
+Finding the original plaintext is trivial in this case.
+
+my caveman solution was to use Alperton Quadratic modular equation solver
+https://www.alpertron.com.ar/QUADMOD.HTM
+
+a = 1, b = 0, c = -(cipher), n = MODULUS
+
+It gives you 2 solutions, which one is correct? to the eqaution of : c4^2 = c5 [N]
+The one that has another modular square root (a qudratic residue)
+
+Basically keep doing this untill you reach c0^2 = c1 [N]
+
+c0 being your plaintext.

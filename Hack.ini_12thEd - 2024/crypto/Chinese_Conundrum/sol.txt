@@ -1,0 +1,11 @@
+put the list of modulus and ciphers we have in the output in a CRT function (Chinese Remainder Theorem)
+
+Example:
+
+sagemath : crt([13, 20], [100, 301])
+output   : 28013
+
+[13, 20] being the ciphers in this case
+[100, 301] being the modulus in this case
+
+Note: Sagemath is amazing.

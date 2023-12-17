@@ -1,0 +1,12 @@
+Goal here is to find P
+
+C = enc + K1 * P * Q
+Cp = enc + K2 * P
+
+C - Cp =  P * (K1 * Q - K2)
+N = P * Q
+
+GCD(C - Cp , N) = P
+
+finding Q is not even necessary, the rest is to calculate d from : d = inverse(e, P - 1)
+then find plaintext = long_to_bytes(pow(Cp, d, P))

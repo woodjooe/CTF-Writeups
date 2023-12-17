@@ -1,0 +1,8 @@
+we have:
+
+eq = (n**3)*(5*(p+1)**2 + pow(p,4)) + 5*n*(q+p) + q**2
+since p > q , then q**2 < p*q (which is n)
+
+so eq%n = q**2
+
+we have q, we can find p, now we can calculate phi = (p-1)*(q-1), calculate the private key and then decrypt easy

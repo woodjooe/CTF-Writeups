@@ -1,0 +1,20 @@
+from this:
+    b = randint(2, p - 1)
+    B = pow(g, b, p)
+    Bk = pow(B, k, p)
+	
+we understand that b could be either a multiple of 2 or not with a possibility of 50%  (keep trying till you get the result u want, unless youre very unlucky you should have the result after 4 tries probably)
+
+so K can be K = (p-1)/2
+if b is a multiple of 2:
+	Bk = pow(B, x*2*K, p) = pow(B, x * 2 * ((p-1) / 2), p) = pow(B, x * (p-1), p) = 1  (this is due to that theorem whose name I forgot)
+
+Bk = 1
+
+shared = pow(Bk, a, p)   (shared = 1)
+key = hashlib.md5(long_to_bytes(shared)).digest() (key is hash of 1)
+
+We have the key, we can easily decipher now.
+
+cipher = AES.new(key, AES.MODE_ECB)
+c = bytes_to_long(cipher.encrypt(pad(flag, 16)))
